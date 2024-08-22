@@ -1,5 +1,6 @@
 package com.puvi.stockmarketapp.data.repository
 
+import com.puvi.stockmarketapp.data.csv.CSVParser
 import com.puvi.stockmarketapp.data.local.StockDatabase
 import com.puvi.stockmarketapp.data.mapper.toCompanyListing
 import com.puvi.stockmarketapp.data.remote.StockApi
@@ -17,6 +18,7 @@ import javax.inject.Singleton
 class StockRepositoryImpl @Inject constructor(
     private val api: StockApi,
     private val db: StockDatabase,
+    private val companyListingParser: CSVParser<CompanyListing>
 ) : StockRepository {
     private val dao = db.dao
 
@@ -39,12 +41,25 @@ class StockRepositoryImpl @Inject constructor(
             }
             val remoteListings = try {
                 val response = api.getListings()
+                companyListingParser.parser(response.byteStream())
             } catch (e: IOException) {
                 e.printStackTrace()
                 emit(Resource.Error("Couldn't load data"))
+                null
             } catch (e: HttpException) {
                 e.printStackTrace()
                 emit(Resource.Error("Couldn't load data"))
+                null
+            }
+            remoteListings?.let { listings ->
+                dao.clearCompanyListings()
+                dao.insertCompanyListings(listings.map { it.toCompanyListing() })
+                emit(
+                    Resource.Success(
+                        data = dao.searchCompanyListing("").map { it.toCompanyListing() })
+                )
+                emit(Resource.Loading(false))
+
             }
         }
     }
