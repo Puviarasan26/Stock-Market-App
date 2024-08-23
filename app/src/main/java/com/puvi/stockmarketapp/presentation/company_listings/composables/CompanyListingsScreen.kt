@@ -17,9 +17,11 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.puvi.stockmarketapp.presentation.company_listings.CompanyListingsEvent
 import com.puvi.stockmarketapp.presentation.company_listings.CompanyListingsViewModel
+import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
+@Destination(start = true)
 fun CompanyListingScreen(
     navigator: DestinationsNavigator,
     viewModel: CompanyListingsViewModel = hiltViewModel()
