@@ -8,12 +8,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorPalette = darkColors(
-    primary = Color(0xFF34C759), // Green 500
-    primaryVariant = Color(0xFF2E865F), // Green 700
-    secondary = Color(0xFF56B3FA), // Teal 200
-    background = Color(0xFF003D66), // Dark Blue for background
-    onPrimary = Color(0xFFFFFFFF), // White on primary for better readability
-    onBackground = Color(0xFFE0E0E0) // Light grey on dark blue background for readability
+    primary = Green500, // Green 500
+    primaryVariant = Green700, // Green 700
+    secondary = Teal200, // Teal 200
+    background = DarkBlue, // Dark Blue for background
+    onPrimary = White, // White on primary for better readability
+    onBackground = LightGrey // Light grey on dark blue background for readability
 )
 
 
