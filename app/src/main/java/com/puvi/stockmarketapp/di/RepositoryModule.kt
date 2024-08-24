@@ -2,8 +2,10 @@ package com.puvi.stockmarketapp.di
 
 import com.puvi.stockmarketapp.data.csv.CSVParser
 import com.puvi.stockmarketapp.data.csv.CompanyListingParser
+import com.puvi.stockmarketapp.data.csv.IntraDayInfoParser
 import com.puvi.stockmarketapp.data.repository.StockRepositoryImpl
 import com.puvi.stockmarketapp.domain.model.CompanyListing
+import com.puvi.stockmarketapp.domain.model.IntraDayInfo
 import com.puvi.stockmarketapp.domain.repository.StockRepository
 import dagger.Binds
 import dagger.Module
@@ -19,6 +21,12 @@ abstract class RepositoryModule {
     abstract fun bindCompanyListingsParser(
         companyListingParser: CompanyListingParser
     ): CSVParser<CompanyListing>
+
+    @Binds
+    @Singleton
+    abstract fun bindIntraDayInfoParser(
+        intraDayInfoParser: IntraDayInfoParser
+    ): CSVParser<IntraDayInfo>
 
     @Binds
     @Singleton
