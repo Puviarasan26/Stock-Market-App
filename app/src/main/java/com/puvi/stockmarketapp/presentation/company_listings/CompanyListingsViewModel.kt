@@ -24,6 +24,7 @@ class CompanyListingsViewModel @Inject constructor(
     init {
         getCompanyListings()
     }
+
     fun onEvent(event: CompanyListingsEvent) {
         when (event) {
             is CompanyListingsEvent.Refresh -> {

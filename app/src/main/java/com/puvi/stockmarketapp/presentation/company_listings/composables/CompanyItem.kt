@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -28,7 +29,9 @@ fun CompanyItem(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Column(modifier = Modifier.weight(1f)) {
+        Column(modifier = Modifier
+            .weight(1f)
+            .padding(16.dp)) {
             Row(modifier = modifier.fillMaxWidth()) {
                 Text(
                     text = company.name,
@@ -45,7 +48,6 @@ fun CompanyItem(
                     fontWeight = FontWeight.Light,
                     color = MaterialTheme.colors.onBackground
                 )
-
             }
             Spacer(modifier = Modifier.height(8.dp))
             Text(
