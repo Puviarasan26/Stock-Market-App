@@ -17,6 +17,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.puvi.stockmarketapp.presentation.company_listings.CompanyListingsEvent
 import com.puvi.stockmarketapp.presentation.company_listings.CompanyListingsViewModel
+import com.puvi.stockmarketapp.presentation.destinations.CompanyInfoScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
@@ -46,7 +47,11 @@ fun CompanyListingScreen(
                     val company = state.companies[i]
                     CompanyItem(company = company, modifier = Modifier
                         .fillMaxWidth()
-                        .clickable { })
+                        .clickable {
+                            navigator.navigate(
+                                CompanyInfoScreenDestination(company.symbol)
+                            )
+                        })
                     if (i < state.companies.size) {
                         Divider(
                             modifier = Modifier.padding(

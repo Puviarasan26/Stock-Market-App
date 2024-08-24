@@ -1,25 +1,16 @@
-package com.puvi.stockmarketapp.presentation.company_info.composables
-
 import android.graphics.Paint
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.foundation.Canvas
-import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.asAndroidPath
-import androidx.compose.ui.graphics.asComposePath
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.puvi.stockmarketapp.domain.model.IntraDayInfo
-import com.puvi.stockmarketapp.ui.theme.Green500
 import kotlin.math.round
 import kotlin.math.roundToInt
 
@@ -28,20 +19,20 @@ import kotlin.math.roundToInt
 fun StockChart(
     infos: List<IntraDayInfo> = emptyList(),
     modifier: Modifier = Modifier,
-    graphColor: Color = Green500,
+    graphColor: Color = Color.Green
 ) {
     val spacing = 100f
     val transparentGraphColor = remember {
         graphColor.copy(alpha = 0.5f)
     }
     val upperValue = remember(infos) {
-        (infos.maxOfOrNull { it.close }?.plus(1)?.roundToInt() ?: 0)
+        (infos.maxOfOrNull { it.close }?.plus(1))?.roundToInt() ?: 0
     }
     val lowerValue = remember(infos) {
         infos.minOfOrNull { it.close }?.toInt() ?: 0
     }
     val density = LocalDensity.current
-    val textPaint = remember {
+    val textPaint = remember(density) {
         Paint().apply {
             color = android.graphics.Color.WHITE
             textAlign = Paint.Align.CENTER
@@ -63,12 +54,12 @@ fun StockChart(
             }
         }
         val priceStep = (upperValue - lowerValue) / 5f
-        (0..5).forEach { i ->
+        (0..4).forEach { i ->
             drawContext.canvas.nativeCanvas.apply {
                 drawText(
                     round(lowerValue + priceStep * i).toString(),
                     30f,
-                    size.height - spacing + i * size.height / 5f,
+                    size.height - spacing - i * size.height / 5f,
                     textPaint
                 )
             }
@@ -76,7 +67,7 @@ fun StockChart(
         var lastX = 0f
         val strokePath = Path().apply {
             val height = size.height
-            for (i in infos.indices) {
+            for(i in infos.indices) {
                 val info = infos[i]
                 val nextInfo = infos.getOrNull(i + 1) ?: infos.last()
                 val leftRatio = (info.close - lowerValue) / (upperValue - lowerValue)
@@ -86,7 +77,7 @@ fun StockChart(
                 val y1 = height - spacing - (leftRatio * height).toFloat()
                 val x2 = spacing + (i + 1) * spacePerHour
                 val y2 = height - spacing - (rightRatio * height).toFloat()
-                if (i == 0) {
+                if(i == 0) {
                     moveTo(x1, y1)
                 }
                 lastX = (x1 + x2) / 2f
@@ -121,5 +112,4 @@ fun StockChart(
             )
         )
     }
-
 }
